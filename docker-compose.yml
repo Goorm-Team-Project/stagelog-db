@@ -6,6 +6,8 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: dev_user
+      MARIADB_PASSWORD: 1111
     ports:
       - "3306:3306"
     volumes:
