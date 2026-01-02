@@ -1,0 +1,13 @@
+services:
+  db:
+    image: mariadb:11.8.3
+    container_name: events_db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: 1111
+      MARIADB_DATABASE: stage_log
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init-db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    
