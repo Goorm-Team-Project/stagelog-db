@@ -72,10 +72,10 @@ CREATE TABLE `events` (
 	`price`		VARCHAR(255)	NULL,
 	`update_date`	TIMESTAMP		NOT NULL,
 	`relate_url`       VARCHAR(255)	NOT NULL,
-	‘host’		VARCHAR(50)	NULL,
-	‘genre’		VARCHAR(50)`	DEFAULT ‘대중음악’,
+	`host`		VARCHAR(50)	NULL,
+	`genre` 	VARCHAR(50)	DEFAULT ‘대중음악’,
 	PRIMARY KEY (`event_id`),
-UNIQUE KEY `unique_kopis_events` (`kopis_id`)
+	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
 );
 
 CREATE TABLE `bookmark` (
@@ -91,10 +91,10 @@ CREATE TABLE `notifications` (
 	`user_id`		INT	NOT NULL,
 	`post_id`		INT	NOT NULL,
 	`event_id`		INT	NOT NULL,
-	`type`			VARCHAR(20)	NOT NULL,
+	`type`			VARCHAR(20)		NOT NULL,
 	`is_read`		TINYINT(1)		NOT NULL	DEFAULT 0,
 	`message`		VARCHAR(255)	NOT NULL,
-	`created_at`		TIMESTAMP		NOT NULL	DEFAULT CURRENT_TIMESTAMP,
+	`created_at`	TIMESTAMP		NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`notification_id`)
 );
 
