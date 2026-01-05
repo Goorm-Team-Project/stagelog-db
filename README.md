@@ -1,6 +1,2 @@
 # stagelog-db
 
-
-
-test
-
