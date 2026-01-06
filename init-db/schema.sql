@@ -72,7 +72,7 @@ CREATE TABLE `events` (
 	`price`		VARCHAR(255)	NULL,
 	`update_date`	TIMESTAMP		NOT NULL,
 	`relate_url`       VARCHAR(255)	NOT NULL,
-	`host`		VARCHAR(50)	NULL,
+	`host`		VARCHAR(100)	NULL,
 	`genre` 	VARCHAR(50)	DEFAULT '대중음악',
 	PRIMARY KEY (`event_id`),
 	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
