@@ -34,7 +34,7 @@ class DatabaseManager:
                 ) VALUES (
                     %s, %s, %s, %s, %s,
                     %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s            
+                    %s, %s, %s, %s
                 )
                 ON DUPLICATE KEY UPDATE
                     title       = VALUES(title),
