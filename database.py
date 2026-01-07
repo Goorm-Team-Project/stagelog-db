@@ -1,5 +1,6 @@
 import pymysql
 import os
+import ssl
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,13 +13,18 @@ class DatabaseManager:
         self.db = os.getenv('DB_NAME')
         
     def get_connection(self):
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+        
         return pymysql.connect(
             host=self.host,
             password=self.password,
             user=self.user,
             db=self.db,
             charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
+            cursorclass=pymysql.cursors.DictCursor,
+            ssl=ssl_context
         )
         
     def upsert_events(self, events_list):

@@ -33,7 +33,7 @@ def lambda_handler(event, context):
         logger.info(f"성공적으로 {len(events_data)}개의 공연을 수집했습니다.")
         
         return {
-            'status_code': 200,
+            'statusCode': 200,
             'body': json.dumps(f"성공 : {len(events_data)}개의 공연을 저장했습니다.")
         }
 

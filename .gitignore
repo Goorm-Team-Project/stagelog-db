@@ -10,3 +10,5 @@ __pycache__/
 # IDE 설정 파일 (PyCharm, VS Code 등)
 .idea/
 .vscode/
+
+library/

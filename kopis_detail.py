@@ -1,6 +1,6 @@
 import requests
 import xmltodict
-import json
+import time
 import os
 from kopis_parser import get_performance_id_list
 from dotenv import load_dotenv
@@ -36,9 +36,12 @@ def get_performance_detail_list(start_date, end_date):
     try:
         for performance_id in performance_id_list:
             detail = get_performance_detail(performance_id)
+            
             if detail:
                performance_detail_list.append(detail)
             
+            # KOPIS API 규정상 1초당 API 조회가 10회가 되면 서비스 중지되는 것을 막기 위해 0.1초 대기
+            time.sleep(0.1)
         
     except Exception as e:
         print(f"세부사항 리스트를 얻어오는데 실패 : {e}")
