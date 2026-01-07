@@ -58,23 +58,27 @@ class DatabaseManager:
                     genre       = VALUES(genre);
                 """
         
-                for event in events_list:
-                    cursor.execute(sql, (
-                        event['kopis_id'],
-                        event['title'],
-                        event['artist'],
-                        event['start_date'],
-                        event['end_date'],
-                        event['venue'],
-                        event['age'],
-                        event['poster'],
-                        event['time'],
-                        event['price'],
-                        event['update_date'],
-                        event['relate_url'],
-                        event['host'],
-                        event['genre']                    
-                    ))
+                values = [
+                    (
+                    event['kopis_id'],
+                    event['title'],
+                    event['artist'],
+                    event['start_date'],
+                    event['end_date'],
+                    event['venue'],
+                    event['age'],
+                    event['poster'],
+                    event['time'],
+                    event['price'],
+                    event['update_date'],
+                    event['relate_url'],
+                    event['host'],
+                    event['genre']
+                    )
+                    for event in events_list
+                ]
+
+                cursor.executemany(sql, values)
             
             conn.commit()
             print(f"로그 : {len(events_list)}건의 데이터 동기화 완료.")
