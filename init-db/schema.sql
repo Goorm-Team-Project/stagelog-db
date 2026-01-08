@@ -1,4 +1,4 @@
-/* 최종 수정 : 2026-01-06 16:56 */
+/* 최종 수정 : 2026-01-08 15:03 */
 /* 수정 사항 : events 테이블에서 host 필드 -> VARCHAR(100) */
 
 CREATE TABLE `user_activity_score` (
@@ -79,6 +79,17 @@ CREATE TABLE `events` (
 	PRIMARY KEY (`event_id`),
 	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
 );
+
+/* 아티스트 본명과 활동명(stage_name)이 저장되는 테이블 */
+CREATE TABLE `artist_mapping` (
+	`mapping_id`	INT				NOT NULL	AUTO_INCREMENT,
+	'raw_name'		VARCHAR(100)	NOT NULL,
+	`stage_name`	VARCHAR(100)	NOT NULL,
+	`created_at`	TIMESTAMP		DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`mapping_id`),
+	UNIQUE KEY `unique_raw_name` (`raw_name`)
+);
+
 
 CREATE TABLE `bookmark` (
 	`bookmark_id`	INT	NOT NULL   AUTO_INCREMENT,
