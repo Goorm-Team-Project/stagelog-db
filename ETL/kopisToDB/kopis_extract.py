@@ -3,9 +3,10 @@ import xmltodict
 import json
 from datetime import datetime, timedelta
 
-period = 40
-start = datetime.today()
-end = start + timedelta(days=period)
+from dotenv import load_dotenv
+from get_date_range import get_date_range
+load_dotenv()
+
 
 
 def get_performance_list():
@@ -58,8 +59,10 @@ def get_performance_list():
     print(f"kopis_extract 총 {len(raw_data_list)}개의 데이터를 가져옴")
     return raw_data_list
 
+
+
+
 if __name__ == "__main__":
-    get_performance_list()
-            
-     
+    startdate, endate = get_date_range()
+    get_performance_list(startdate, endate)
 
