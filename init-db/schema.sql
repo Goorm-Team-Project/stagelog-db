@@ -56,7 +56,7 @@ CREATE TABLE `posts` (
 	`like_count`	INT		NOT NULL	DEFAULT 0,
 	`dislike_count`	INT		NOT NULL	DEFAULT 0,
 	`views`		INT		NOT NULL	DEFAULT 0,
-	'image_url'  VARCHAR(300)  NULL,
+	`image_url`  VARCHAR(300)  NULL,
 	PRIMARY KEY (`post_id`)
 );
 
