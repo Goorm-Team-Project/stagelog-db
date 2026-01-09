@@ -96,7 +96,7 @@ CREATE TABLE `bookmark` (
 	`user_id`	INT	NOT NULL,
 	`event_id`	INT	NOT NULL,
 	PRIMARY KEY (`bookmark_id`),
-UNIQUE KEY `unique_user_event_bookmark` (`user_id`, `event_id`)
+	UNIQUE KEY `unique_user_event_bookmark` (`user_id`, `event_id`)
 );
 
 CREATE TABLE `notifications` (
