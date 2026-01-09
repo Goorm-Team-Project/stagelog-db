@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     logger.info("Lambda Start")
     
     try:
-        start_date, end_date = get_date_range()
+        start_date, end_date = get_date_range(2)
         logger.info(f"공연 정보 수집 범위 : {start_date} ~ {end_date}")
         
         events_data = transform_event_data(start_date, end_date)
