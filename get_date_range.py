@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 def get_date_range(): 
         today = datetime.now()
-        months = 6 # 이 값으로 n개월 정의
+        months = 2 # 이 값으로 n개월 정의
         n_months_later = today + relativedelta(months=months)
         
         return today.strftime('%Y%m%d'), n_months_later.strftime('%Y%m%d')

@@ -83,7 +83,7 @@ CREATE TABLE `events` (
 /* 아티스트 본명과 활동명(stage_name)이 저장되는 테이블 */
 CREATE TABLE `artist_mapping` (
 	`mapping_id`	INT				NOT NULL	AUTO_INCREMENT,
-	'raw_name'		VARCHAR(100)	NOT NULL,
+	`raw_name`		VARCHAR(100)	NOT NULL,
 	`stage_name`	VARCHAR(100)	NOT NULL,
 	`created_at`	TIMESTAMP		DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`mapping_id`),
