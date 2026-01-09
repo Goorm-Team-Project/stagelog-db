@@ -1,4 +1,5 @@
-/* 최종 수정 : 2026-01-02 16:21 */
+/* 최종 수정 : 2026-01-06 16:56 */
+/* 수정 사항 : events 테이블에서 host 필드 -> VARCHAR(100) */
 
 CREATE TABLE `user_activity_score` (
 	`user_activity_score_id`	INT	NOT NULL   AUTO_INCREMENT,
@@ -55,6 +56,7 @@ CREATE TABLE `posts` (
 	`like_count`	INT		NOT NULL	DEFAULT 0,
 	`dislike_count`	INT		NOT NULL	DEFAULT 0,
 	`views`		INT		NOT NULL	DEFAULT 0,
+	'image_url'  VARCHAR(300)  NULL,
 	PRIMARY KEY (`post_id`)
 );
 
@@ -72,7 +74,7 @@ CREATE TABLE `events` (
 	`price`		VARCHAR(255)	NULL,
 	`update_date`	TIMESTAMP		NOT NULL,
 	`relate_url`       VARCHAR(255)	NOT NULL,
-	`host`		VARCHAR(50)	NULL,
+	`host`		VARCHAR(100)	NULL,
 	`genre` 	VARCHAR(50)	DEFAULT '대중음악',
 	PRIMARY KEY (`event_id`),
 	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
