@@ -57,10 +57,10 @@ def get_performance_list(start_date, end_date):
     print(f"kopis_extract : 총 {len(raw_data_list)}개의 데이터를 가져왔습니다.")
     return raw_data_list
 
-'''
+
 if __name__ == "__main__":
     startdate, endate = get_date_range(2)
     get_performance_list(startdate, endate)
     print(f"{os.getenv('last_update')}")
-'''
+
 
