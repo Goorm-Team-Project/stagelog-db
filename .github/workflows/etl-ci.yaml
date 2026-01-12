@@ -1,0 +1,32 @@
+#init
+name: ETL Continuous Integration
+
+# 1. 언제 실행할 것인가?
+on:
+  push:
+    branches: [ "feature/cicd" ] # 지금 작업 중인 브랜치
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest # GitHub이 빌드용 컴퓨터를 한 대 빌려줍니다.
+
+    steps:
+      # 2. 코드 가져오기
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 3. 도커 허브 로그인 (비밀번호는 Secrets에서 가져옴)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 4. 도커 이미지 빌드 및 푸시
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          # 여기에 아까 성공한 본인 아이디와 레포 이름을 넣으세요.
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/stagelog-repo:etl
