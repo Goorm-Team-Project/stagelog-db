@@ -46,4 +46,5 @@ def lambda_handler(event, context):
 
 # 로컬 테스트        
 if __name__=='__main__':
-    lambda_handler(None, None)
+    #lambda_handler(None, None)
+    print("-----------cd 성공!---------")
