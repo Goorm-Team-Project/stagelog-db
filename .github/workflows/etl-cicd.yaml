@@ -78,7 +78,7 @@ jobs:
             # 4. 실행 (EC2에 미리 생성한 .env 사용)
             sudo docker run -d \
               --name etl-container \
-              --env-file /home/ubuntu/.env \
+              --env-file /home/ec2-user/.env \
               ${{ secrets.DOCKERHUB_USERNAME }}/stagelog-repo:etl
             
             # 5. 정리
@@ -91,3 +91,8 @@ jobs:
           aws ec2 revoke-security-group-ingress \
             --group-id ${{ secrets.AWS_SG_ID }} \
             --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+
+
+
+  
