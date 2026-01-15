@@ -38,7 +38,7 @@ CREATE TABLE `artist_mapping` (
 );
 
 ALTER TABLE events
-ADD COLUMN group_name VARCHAR(100) DEFAULT NULL;
+ADD COLUMN group_name VARCHAR(100) DEFAULT NULL;gid
 
 
 /* ***************************************************** */
