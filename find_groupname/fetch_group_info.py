@@ -2,6 +2,7 @@ import os
 import json
 import pymysql
 import traceback
+import ssl
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -16,7 +17,11 @@ def get_connection():
         password=os.getenv('DB_ROOT_PASSWORD'),
         db=os.getenv('DB_NAME'),
         charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
+        cursorclass=pymysql.cursors.DictCursor,
+        ssl={
+            'check_hostname': False,
+            'verify_mode': ssl.CERT_NONE
+        }
     )
     
 def fetch_groupname_info(event_list):
