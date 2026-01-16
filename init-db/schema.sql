@@ -7,6 +7,42 @@
 - Index 추가
 */
 
+CREATE TABLE `events` (
+	`event_id`	INT					NOT NULL   AUTO_INCREMENT,
+	`kopis_id`	VARCHAR(20)			NOT NULL,
+	`title`		VARCHAR(255)		NOT NULL,
+	`artist`		VARCHAR(100)	NULL,
+	`start_date`	DATE			NOT NULL,
+	`end_date`		DATE			NOT NULL,
+	`venue`			VARCHAR(100)	NULL,
+	`age`			VARCHAR(20)		NULL,
+	`poster`		VARCHAR(500)	NULL,
+	`time`			VARCHAR(255)	NULL,
+	`price`			VARCHAR(255)	NULL,
+	`update_date`	TIMESTAMP		NOT NULL,
+	`relate_url`	VARCHAR(255)	NOT NULL,
+	`host`			VARCHAR(100)		NULL,
+	`genre` 		VARCHAR(50)			DEFAULT '대중음악',
+	PRIMARY KEY (`event_id`),
+	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
+);
+
+/* 아티스트 본명과 활동명(stage_name)이 저장되는 테이블 */
+CREATE TABLE `artist_mapping` (
+	`mapping_id`	INT				NOT NULL	AUTO_INCREMENT,
+	`raw_name`		VARCHAR(100)	NOT NULL,
+	`stage_name`	VARCHAR(100)	NOT NULL,
+	`created_at`	TIMESTAMP		DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`mapping_id`),
+	UNIQUE KEY `unique_raw_name` (`raw_name`)
+);
+
+ALTER TABLE events
+ADD COLUMN group_name VARCHAR(100) DEFAULT NULL;gid
+
+
+/* ***************************************************** */
+
 CREATE TABLE `user_activity_score` (
 	`user_activity_score_id`	INT	NOT NULL   AUTO_INCREMENT,
 	`user_id`			INT	NOT NULL,
@@ -58,37 +94,6 @@ CREATE TABLE `posts` (
 	`image_url`  	VARCHAR(300)  NULL,
 	PRIMARY KEY (`post_id`)
 );
-
-CREATE TABLE `events` (
-	`event_id`	INT					NOT NULL   AUTO_INCREMENT,
-	`kopis_id`	VARCHAR(20)			NOT NULL,
-	`title`		VARCHAR(255)		NOT NULL,
-	`artist`		VARCHAR(100)	NULL,
-	`start_date`	DATE			NOT NULL,
-	`end_date`		DATE			NOT NULL,
-	`venue`			VARCHAR(100)	NULL,
-	`age`			VARCHAR(20)		NULL,
-	`poster`		VARCHAR(500)	NULL,
-	`time`			VARCHAR(255)	NULL,
-	`price`			VARCHAR(255)	NULL,
-	`update_date`	TIMESTAMP		NOT NULL,
-	`relate_url`	VARCHAR(255)	NOT NULL,
-	`host`			VARCHAR(100)		NULL,
-	`genre` 		VARCHAR(50)			DEFAULT '대중음악',
-	PRIMARY KEY (`event_id`),
-	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
-);
-
-/* 아티스트 본명과 활동명(stage_name)이 저장되는 테이블 */
-CREATE TABLE `artist_mapping` (
-	`mapping_id`	INT				NOT NULL	AUTO_INCREMENT,
-	`raw_name`		VARCHAR(100)	NOT NULL,
-	`stage_name`	VARCHAR(100)	NOT NULL,
-	`created_at`	TIMESTAMP		DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (`mapping_id`),
-	UNIQUE KEY `unique_raw_name` (`raw_name`)
-);
-
 
 CREATE TABLE `bookmark` (
 	`bookmark_id`	INT	NOT NULL   AUTO_INCREMENT,
