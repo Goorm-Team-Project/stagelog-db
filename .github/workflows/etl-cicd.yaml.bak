@@ -78,7 +78,7 @@ jobs:
             # 4. 실행 (EC2에 미리 생성한 .env 사용)
             sudo docker run -d \
               --name etl-container \
-              --env-file /home/ec2-user/.env \
+              --env-file /home/ec2-user/stagelog-db/.env \
               ${{ secrets.DOCKERHUB_USERNAME }}/stagelog-repo:etl
             
             # 5. 정리
