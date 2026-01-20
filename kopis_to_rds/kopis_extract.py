@@ -3,8 +3,10 @@ import xmltodict
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
-
+from get_date_range import get_date_range
 load_dotenv()
+
+
 
 def get_performance_list(start_date, end_date):    
     # 1. API 요청 경로 (가이드 7페이지 참조)
@@ -13,8 +15,8 @@ def get_performance_list(start_date, end_date):
     # 2. 요청 파라미터 설정
     params = {
         'service': os.getenv('KOPIS_API_KEY'), 
-        'stdate': start_date,    # 공연 시작일
-        'eddate': end_date,      # 공연 종료일
+        'stdate': start_date,    # 조회 시작일
+        'eddate': end_date,      # 조회 종료일
         'cpage': 1,              # 현재 페이지
         'rows': 100,             # 한 번에 가져올 개수
         'shcate': 'CCCD'         # 장르코드: 대중음악
@@ -51,12 +53,14 @@ def get_performance_list(start_date, end_date):
                   
             except Exception as e:
                 print(f"kopis_extract 에러 발생: {e}")
-
+    os.environ['last_update'] = end_date
     print(f"kopis_extract : 총 {len(raw_data_list)}개의 데이터를 가져왔습니다.")
     return raw_data_list
 
 
-'''
 if __name__ == "__main__":
-    get_performance_list()
-'''
+    startdate, endate = get_date_range(2)
+    get_performance_list(startdate, endate)
+    print(f"{os.getenv('last_update')}")
+
+

@@ -1,0 +1,16 @@
+# 가상환경 및 캐시
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Git 및 설정파일
+.git/
+.gitignore
+.env
+
+# 기타 문서 및 테스트
+tests/
+*.md
+.github/
+ETL/
