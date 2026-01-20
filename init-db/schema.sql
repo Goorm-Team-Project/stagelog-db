@@ -1,5 +1,47 @@
-/* 최종 수정 : 2026-01-06 16:56 */
-/* 수정 사항 : events 테이블에서 host 필드 -> VARCHAR(100) */
+/* 최종 수정 : 2026-01-09 */
+/* 
+[ 수정 사항 ]
+- events 테이블에서 host 필드 -> VARCHAR(100)
+- artist_mapping 테이블 추가
+- badge 테이블 주석 처리
+- Index 추가
+*/
+
+CREATE TABLE `events` (
+	`event_id`	INT					NOT NULL   AUTO_INCREMENT,
+	`kopis_id`	VARCHAR(20)			NOT NULL,
+	`title`		VARCHAR(255)		NOT NULL,
+	`artist`		VARCHAR(100)	NULL,
+	`start_date`	DATE			NOT NULL,
+	`end_date`		DATE			NOT NULL,
+	`venue`			VARCHAR(100)	NULL,
+	`age`			VARCHAR(20)		NULL,
+	`poster`		VARCHAR(500)	NULL,
+	`time`			VARCHAR(255)	NULL,
+	`price`			VARCHAR(255)	NULL,
+	`update_date`	TIMESTAMP		NOT NULL,
+	`relate_url`	VARCHAR(255)	NOT NULL,
+	`host`			VARCHAR(100)		NULL,
+	`genre` 		VARCHAR(50)			DEFAULT '대중음악',
+	PRIMARY KEY (`event_id`),
+	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
+);
+
+/* 아티스트 본명과 활동명(stage_name)이 저장되는 테이블 */
+CREATE TABLE `artist_mapping` (
+	`mapping_id`	INT				NOT NULL	AUTO_INCREMENT,
+	`raw_name`		VARCHAR(100)	NOT NULL,
+	`stage_name`	VARCHAR(100)	NOT NULL,
+	`created_at`	TIMESTAMP		DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`mapping_id`),
+	UNIQUE KEY `unique_raw_name` (`raw_name`)
+);
+
+ALTER TABLE events
+ADD COLUMN group_name VARCHAR(100) DEFAULT NULL;gid
+
+
+/* ***************************************************** */
 
 CREATE TABLE `user_activity_score` (
 	`user_activity_score_id`	INT	NOT NULL   AUTO_INCREMENT,
@@ -11,9 +53,9 @@ CREATE TABLE `user_activity_score` (
 
 CREATE TABLE `post_reactions` (
 	`reaction_id`	INT	NOT NULL   AUTO_INCREMENT,
-	`post_id`	INT	NOT NULL,
-	`user_id`	INT	NOT NULL,
-	`type`		ENUM('like','dislike')	NOT NULL,
+	`post_id`		INT	NOT NULL,
+	`user_id`		INT	NOT NULL,
+	`type`			ENUM('like','dislike')	NOT NULL,
 	PRIMARY KEY (`reaction_id`),
 	UNIQUE KEY `unique_user_post_reaction` (`user_id`, `post_id`)
 );
@@ -21,13 +63,13 @@ CREATE TABLE `post_reactions` (
 CREATE TABLE `users` (
 	`user_id`			INT	NOT NULL   AUTO_INCREMENT,
 	`email`				VARCHAR(255)	NOT NULL,
-	`nickname`			VARCHAR(50)	NOT NULL,
+	`nickname`			VARCHAR(50)		NOT NULL,
 	`provider`			VARCHAR(255)	NOT NULL,
-	`provider_id`			VARCHAR(255)	NOT NULL,
-	`created_at`			DATETIME	NOT NULL   DEFAULT CURRENT_TIMESTAMP,
-	`is_email_sub`			TINYINT(1)	NOT NULL,
+	`provider_id`		VARCHAR(255)	NOT NULL,
+	`created_at`		DATETIME		NOT NULL   DEFAULT CURRENT_TIMESTAMP,
+	`is_email_sub`		TINYINT(1)		NOT NULL,
 	`is_events_notification_sub`	TINYINT(1)	NOT NULL,
-	`is_posts_notification_sub`	TINYINT(1)	NOT NULL,
+	`is_posts_notification_sub`		TINYINT(1)	NOT NULL,
 	`is_admin`		TINYINT(1)	NOT NULL,
 	`exp_now`		INT	NOT NULL   DEFAULT 0,
 	`exp_total`		INT	NOT NULL   DEFAULT 0,
@@ -36,13 +78,6 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`user_id`)
 );
 
-CREATE TABLE `badge` (
-	`badge_id`		INT			NOT NULL   AUTO_INCREMENT,
-	`name`			VARCHAR(100)	NOT NULL,
-	`description`		VARCHAR(255)	NULL,
-	`required_score`	INT			NOT NULL,
-	PRIMARY KEY (`badge_id`)
-);
 
 CREATE TABLE `posts` (
 	`post_id`	INT	NOT NULL   AUTO_INCREMENT,
@@ -50,49 +85,29 @@ CREATE TABLE `posts` (
 	`user_id`	INT	NOT NULL,
 	`category`	ENUM('후기','질문','정보')	NOT NULL,
 	`title`		VARCHAR(255)	NOT NULL,
-	`content`	TEXT		NOT NULL,
+	`content`	TEXT			NOT NULL,
 	`updated_at`	TIMESTAMP	NULL 		ON UPDATE CURRENT_TIMESTAMP,
 	`created_at`	TIMESTAMP	NULL		DEFAULT CURRENT_TIMESTAMP,
-	`like_count`	INT		NOT NULL	DEFAULT 0,
-	`dislike_count`	INT		NOT NULL	DEFAULT 0,
-	`views`		INT		NOT NULL	DEFAULT 0,
-	'image_url'  VARCHAR(300)  NULL,
+	`like_count`	INT			NOT NULL	DEFAULT 0,
+	`dislike_count`	INT			NOT NULL	DEFAULT 0,
+	`views`			INT			NOT NULL	DEFAULT 0,
+	`image_url`  	VARCHAR(300)  NULL,
 	PRIMARY KEY (`post_id`)
-);
-
-CREATE TABLE `events` (
-	`event_id`	INT			NOT NULL   AUTO_INCREMENT,
-	`kopis_id`	VARCHAR(20)	NOT NULL,
-	`title`		VARCHAR(255)	NOT NULL,
-	`artist`		VARCHAR(100)	NULL,
-	`start_date`	DATE			NOT NULL,
-	`end_date`	DATE			NOT NULL,
-	`venue`	VARCHAR(100)	NULL,
-	`age`		VARCHAR(20)	NULL,
-	`poster`	VARCHAR(500)	NULL,
-	`time`		VARCHAR(255)	NULL,
-	`price`		VARCHAR(255)	NULL,
-	`update_date`	TIMESTAMP		NOT NULL,
-	`relate_url`       VARCHAR(255)	NOT NULL,
-	`host`		VARCHAR(100)	NULL,
-	`genre` 	VARCHAR(50)	DEFAULT '대중음악',
-	PRIMARY KEY (`event_id`),
-	UNIQUE KEY `unique_kopis_events` (`kopis_id`)
 );
 
 CREATE TABLE `bookmark` (
 	`bookmark_id`	INT	NOT NULL   AUTO_INCREMENT,
-	`user_id`	INT	NOT NULL,
-	`event_id`	INT	NOT NULL,
+	`user_id`		INT	NOT NULL,
+	`event_id`		INT	NOT NULL,
 	PRIMARY KEY (`bookmark_id`),
-UNIQUE KEY `unique_user_event_bookmark` (`user_id`, `event_id`)
+	UNIQUE KEY `unique_user_event_bookmark` (`user_id`, `event_id`)
 );
 
 CREATE TABLE `notifications` (
 	`notification_id`	INT	NOT NULL   AUTO_INCREMENT,
-	`user_id`		INT	NOT NULL,
-	`post_id`		INT	NOT NULL,
-	`event_id`		INT	NOT NULL,
+	`user_id`			INT	NOT NULL,
+	`post_id`			INT	NOT NULL,
+	`event_id`			INT	NOT NULL,
 	`type`			VARCHAR(20)		NOT NULL,
 	`is_read`		TINYINT(1)		NOT NULL	DEFAULT 0,
 	`message`		VARCHAR(255)	NOT NULL,
@@ -103,9 +118,9 @@ CREATE TABLE `notifications` (
 
 CREATE TABLE `comments` (
 	`comment_id`	INT		NOT NULL   AUTO_INCREMENT,
-	`user_id`	INT		NOT NULL,
-	`post_id`	INT		NOT NULL,
-	`content`	TEXT		NOT NULL,
+	`user_id`		INT		NOT NULL,
+	`post_id`		INT		NOT NULL,
+	`content`		TEXT		NOT NULL,
 	`created_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	`updated_at`	TIMESTAMP	NOT NULL	DEFAULT CURRENT_TIMESTAMP   ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`comment_id`)
@@ -117,7 +132,7 @@ CREATE TABLE `reports` (
 	`user_id`		INT	NOT NULL,
 	`reason_category`	ENUM('도배','욕설','허위정보')	NOT NULL,
 	`reason_detail`	TEXT			NOT NULL,
-	`created_at`		TIMESTAMP		NOT NULL	DEFAULT CURRENT_TIMESTAMP,
+	`created_at`	TIMESTAMP		NOT NULL	DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`report_id`)
 );
 
@@ -150,3 +165,16 @@ ALTER TABLE `user_activity_score` ADD CONSTRAINT `FK_users_TO_score` FOREIGN KEY
 ALTER TABLE `user_activity_score` ADD CONSTRAINT `FK_badge_TO_score` FOREIGN KEY (`badge_id`) REFERENCES `badge` (`badge_id`) ON DELETE CASCADE;
 
 
+-- 게시글 카테고리별 최신순 조회 최적화
+CREATE INDEX idx_posts_category_date ON posts (category, created_at DESC);
+
+
+
+/*
+CREATE TABLE `badge` (
+	`badge_id`			INT				NOT NULL   AUTO_INCREMENT,
+	`name`				VARCHAR(100)	NOT NULL,
+	`required_score`	INT				NOT NULL,
+	PRIMARY KEY (`badge_id`)
+);
+*/

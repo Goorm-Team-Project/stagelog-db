@@ -6,10 +6,14 @@ ETL
 
 # 파이썬 캐시 폴더 제외
 __pycache__/
+kopis_to_rds/__pycache__/
+find_groupname/__pycache__/
 *.pyc
 
 # IDE 설정 파일 (PyCharm, VS Code 등)
 .idea/
 .vscode/
 
-library/
+# 람다에 올릴 때 필요한 라이브러리 폴더들
+kopis_to_rds/library/
+find_groupname/library/
