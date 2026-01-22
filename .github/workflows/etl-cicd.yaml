@@ -1,0 +1,74 @@
+name: Deploy Multi-Lambda
+
+on:
+  push:
+    branches: [ develop ]
+    # 특정 폴더의 파일이 바뀔 때만 액션이 트리거되도록 설정
+    paths:
+      - 'kopis_to_rds/**'
+      - 'find_groupname/**'
+
+jobs:
+  # --- Lambda kopis_to_rds 배포 작업 ---
+  deploy-kopis_to_rds:
+    runs-on: ubuntu-latest
+    # 변경 사항에 kopis_to_rds 폴더가 포함된 경우에만 실행
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # 변경 파일 감지를 위해 필요
+
+      - name: Check for kopis_to_rds changes
+        id: kopis_to_rds
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep 'kopis_to_rds/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy kopis_to_rds to AWS
+        if: steps.kopis_to_rds.outputs.changed == 'true'
+        run: |
+          cd kopis_to_rds
+          pip install -t . -r requirements.txt
+          zip -r ../kopis_to_rds.zip .
+          aws lambda update-function-code \
+            --function-name stagelog-rds-rambda \
+            --zip-file fileb://../kopis_to_rds.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+  # --- Lambda find_groupname 배포 작업 ---
+  deploy-find_groupname:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for find_groupname changes
+        id: check_find_groupname
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep 'find_groupname/'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy find_groupname to AWS
+        if: steps.check_find_groupname.outputs.changed == 'true'
+        run: |
+          cd find_groupname
+          pip install -t . -r requirements.txt
+          zip -r ../find_groupname.zip .
+          aws lambda update-function-code \
+            --function-name stagelog-rds-groupname-rambda \
+            --zip-file fileb://../find_groupname.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+
+
+
+
+  
